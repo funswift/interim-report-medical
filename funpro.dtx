@@ -1,0 +1,964 @@
+% \iffalse meta-comment
+% Copyright (C) 2004 by Thor Watanabe
+% 
+% This file may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License, either
+% version 1.2 of this license or (at your option) any later
+% version.  The latest version of this license is in:
+% 
+%    http://www.latex-project.org/lppl.txt
+% 
+% and version 1.2 or later is part of all distributions of
+% LaTeX version 1999/12/01 or later.
+% 
+% \fi
+% \CheckSum{889}
+% \iffalse
+%<funpro>\NeedsTeXFormat{pLaTeX2e}
+%<funpro>\ProvidesPackage{funpro}
+%<funpro>   [2004/11/25 v2.0 Thor]
+%<*driver>
+\documentclass{jsarticle}
+\usepackage{doc}
+\usepackage{funpro}
+\usepackage{shortvrb}
+%\usepackage{funhoge}
+\newcommand\ud[1]{[#1]}
+\newcommand{\va}[1]{{\normalfont$\langle$\mbox{}#1\mbox{}$\rangle$}}
+\newcommand{\pa}[1]{{\ttfamily\string{}\va{#1}{\ttfamily\string}}}%
+\newcommand{\opa}[1]{{\ttfamily[}\va{#1}{\ttfamily]}}%
+\newcommand{\xy}[2]{\string({\itshape#1}\texttt,{\itshape#2}\string)}
+\def\Syntax{\vskip1zw\hrule\par\vskip1zw\noindent\hskip-3zw}
+\def\endSyntax{\ifhmode\par\fi}
+\def\sline{\par\noindent\hskip-3zw}
+\MakeShortVerb|
+\EnableCrossrefs
+%\CodelineIndex
+\makeatletter%
+\newdimen\fullwidth
+\setlength\textwidth{40zw}
+\setlength\fullwidth{\textwidth}
+\@setfontsize\normalsize{10pt}{17pt}
+\setlength\textheight{40\baselineskip}
+\setlength\hoffset{13\p@}
+\setlength\voffset{0\p@}
+\setlength\evensidemargin{0\p@}
+\setlength\oddsidemargin{\evensidemargin}
+\setlength\topmargin{0\p@}
+\setlength\headheight{0\p@}
+\setlength\headsep{0\p@}
+\setlength\marginparwidth{0\p@}
+\setlength\marginparpush{0\p@}
+\setlength\marginparsep{0\p@}
+\makeatother%
+\addtolength{\textheight}{.5in}
+\addtolength{\evensidemargin}{1in}
+\addtolength{\oddsidemargin}{1in}
+\addtolength{\marginparwidth}{1in}
+\setlength\marginparsep{10pt}
+\setlength\marginparpush{0pt}
+\setcounter{StandardModuleDepth}{1}
+\GetFileInfo{funpro.sty}
+\begin{document}
+  \DocInput{funpro.dtx}
+\end{document}
+%</driver>
+% \fi
+% \begin{center}
+% {\large\headfont 報告書作成用スタイルファイル}\par\vskip1zw
+% {渡辺徹＠FUNNIST編集委員会}\par
+% {\number\year/\number\month/\number\day}\par
+% \end{center}
+% \StopEventually{}
+%    \begin{macrocode}
+%<*funpro>
+%    \end{macrocode}
+% \section*{リファレンス}
+% \begin{Syntax}
+% |\thisYear|\pa{年度}
+% \end{Syntax}
+% `2004'等の形式で年度を指定します。非ユーザーコマンドです。
+% \begin{Syntax}
+% |\midorfin|\pa{中間}\pa{最終}
+% \end{Syntax}
+% |\midorfin|はその報告書が中間か最終かによっていずれかの引数を
+% 出力するようにします。もしもその報告書が中間ならば1つ目の引数
+% だけが出力されるようになりますから、中間と最終で内容を変えたい
+% ときに便利です。
+% \begin{quote}
+% |\midorfin{中間}{最終}報告書ではほげほげ。|
+% \end{quote}
+% \begin{Syntax}
+% |\type|\pa{文字列}
+% \end{Syntax}
+% コンソールからの入力を促すときに使われる命令です。
+% いかなる特殊記号を書いても大丈夫です。
+% |\type{perl -ni 'hoge'}|とすると\type{perl -ni 'hoge'}となります。
+% \begin{Syntax}
+% |\begin{TYPE}| |\type|\opa{記号}\pa{文字列} |\end{TYPE}|
+% \end{Syntax}
+% 複数行に渡るコンソール入力を促すときに使われます。
+% このとき|list|環境が使われ、行の先頭に記号がつきます。
+% 標準でドル`|$|'がつきますが、\opa{記号}に各々の
+% 記号を適宜バックスラッシュと共に用いると指定できます。
+% `|%|'にしたければ|\item[\%]{ls -l /}|とします。
+% \begin{Syntax}
+% |\key|\pa{キー}, |\return|, |upkey|, |downkey|, |leftkey|, 
+% |rightkey|
+% \end{Syntax}
+% キーボードの特定のキーを示すときに使われます。\newline
+% |\key{Delete}, \return, \upkey, downkey, leftkey, \key{Alt}|
+% は次のようになります。
+% \begin{quote}
+% \key{Delete}, \return, \upkey, \downkey, \leftkey, \key{Alt}
+% \end{quote}
+% \begin{Syntax}
+% |\dir|\pa{ファイル} 
+% \end{Syntax}
+% ファイルやディレクトリを示すときに使われます。
+% \begin{quote}
+% |\dir{/usr/local/bin/emacs}|は\dir{/usr/local/bin/emacs}です。
+% \end{quote}
+% \begin{Syntax}
+% |\suf|\pa{拡張子}
+% \end{Syntax}
+% 拡張子を示すときに使います。自動的にピリオドがつきます。
+% |\suf{pl}|のように使います。
+% \begin{quote}
+% 拡張子\suf{pl}はPerlとPrologの両方で使われている。
+% \end{quote}
+% \begin{Syntax}
+% |\begin{INPUT}| \pa{文字列} |\end{INPUT}|
+% \end{Syntax}
+% テキストファイルなどへの入力を示します。以下の先頭のパーセントは
+% 無視してください。
+% \begin{verbatim}
+% \begin{INPUT}
+% \documentclass{jsarticle}
+% \begin{document}
+% Hello, \LaTeX!!
+% \end{documet}
+% \end{INPUT}
+% と入力してください。\end{verbatim}
+%
+% \begin{Syntax}
+% |\begin{CON}| \pa{文字列} |\end{CON}|
+% \end{Syntax}
+% コンソールに出力される結果を示すときに使われます。
+%
+% \begin{Syntax}
+% |\ProjectLeader|\pa{学籍番号}\pa{和文氏名}\pa{欧文氏名}\sline
+% |\GroupLeader|\pa{学籍番号}\pa{和文氏名}\pa{欧文氏名}
+% \end{Syntax}
+% 表紙用のプロジェクトリーダとグループリーダを書きます。
+% 表紙を出力した後は消されます。引数の順番は決まっています。
+% \begin{quote}
+% |\ProjectLeader{1202000}{未来太郎}{Taro~Mirai}|
+% \end{quote}
+% \begin{Syntax}
+% |\GroupMember|\pa{番号}\pa{学籍番号}\pa{和文氏名}\pa{欧文氏名}
+% \end{Syntax}
+% グループメンバーを複数書きます。\va{番号}は必ず1からはじめて
+% 連番で指定します。
+% \begin{quote}
+% |\GroupMember{1}{1202100}{函館太郎}{Taro~Hakodate}|
+% \end{quote}
+% 
+% \begin{Syntax}
+% |\jProjectName|\pa{和文プロジェクト名}\sline
+% |\eProjectName|\opa{短いヘッダー用のプロジェクト名}\pa{欧文プロジェクト名}
+% \end{Syntax}
+% 和文と欧文のプロジェクト名を書きます。欧文のプロジェクト名がヘッダーを
+% 2行にまたがってしまうほど長い場合は、任意引数として短い欧文の
+% プロジェクト名を記述します。
+%
+% \begin{Syntax}
+% |\jGroupName|\pa{和文グループ名}\sline
+% |\eGroupName|\pa{欧文グループ名}
+% \end{Syntax}
+% 和文と欧文のグループ名を書きます。
+%
+% \begin{Syntax}
+% |\ProjectNumber|\pa{プロジェクト番号}
+% \end{Syntax}
+% プロジェクト番号を書きます\ud{2004/07/27}。
+% `\va{プロジェクト番号}-\va{グループ番号}'としなければ
+% なりませんので、4番のAグループならば`4-A'となります。
+%
+% \begin{Syntax}
+% |\jadvisor|\pa{和文指導教員1,教員2,\ldots}\sline
+% |\eadvisor|\pa{欧文指導教員1,教員2,\ldots}
+% \end{Syntax}
+% 指導教員を書きます。複数指定することが可能です。
+% そのとき必ず半角のカンマで区切ります。それ以外の記号で
+% 区切ると正しく出力されません。
+% \begin{quote}
+% |\jadvisor{未来太郎,北海花子,函館太郎}|
+% \end{quote}
+%
+% \begin{Syntax}
+% |\jdate|\pa{和文提出日}\sline
+% |\edate|\pa{欧文提出日}
+% \end{Syntax}
+% 提出日を和文と欧文で指定します。
+%
+% \begin{Syntax}
+% |\SumOfMembers|\pa{メンバー数}
+% \end{Syntax}
+% メンバー数を指定します。これが与えられないとメンバーを表紙に
+% 出力できません。正の整数を与えないと正常に出力されません。
+%
+% \begin{Syntax}
+% |\begin{eabstract}| \pa{欧文概要} |\end{eabstract}|
+% \end{Syntax}
+% 欧文の概要を出力します。この環境中に後述の|\ekeyword|命令
+% を使うことができます。
+%
+% \begin{Syntax}
+% |\begin{jabstract}| \pa{和文概要} |\end{jabstract}| 
+% \end{Syntax}
+% 和文用の概要を書きます。
+%
+% \begin{Syntax}
+% |\ekeyword|\pa{欧文キーワード1,キーワード2,\ldots}\sline 
+% |\jkeyword|\pa{和文キーワード1,キーワード2,\ldots}
+% \end{Syntax}
+% 複数のキーワードを指定するときの区切りは適切なものを使ってください。
+% そのうちこのマクロは実装を変更するかもしれません
+% （和文の場合は`、'で欧文の場合は`,'になるように）。
+%
+% \begin{Syntax}
+% |\bunseki|\pa{文責}
+% \end{Syntax}
+% 文責を示すための命令です。|\bunseki{未来太郎}|とするだけです。
+%
+% \begin{Syntax}
+% |\qu|, |\qq|, |yo|, |\yy|, |\pp|, |\wasyo|, |\yousyo|
+% \end{Syntax}
+% おまけの命令です。\\
+% |\qu{hoge} is \qq{hoge \& hoge}. Hoge wrote \yousyo{hoge is good.}|\\
+% |\yo{あれ}と\yy{それはあれです。}ならば\pp{あれ？}\wasyo{ほげ学}を|\\ 
+% と入力すると次のようになります。
+% \begin{quote}
+% \qu{hoge} is \qq{hoge \& hoge}. Hoge wrote \yousyo{hoge is good.}
+% \yo{あれ}と\yy{それはあれです。}ならば\pp{あれ？}\wasyo{ほげ学}を
+% 書いた。
+% \end{quote}
+% \begin{Syntax}
+% |\chaplab|, |\chapref|, |\seclab|, |\secref|,|\applab|, 
+% |\appref|, |\figlab|, |\figref|, |\tablab|, |\tabref|, 
+% |\equlab|, |\equref|, |\pref|
+% \end{Syntax}
+% 相互参照用の命令です。特に意識して使うこともありません。
+% 詳しくは渡辺徹が書いた『好き好き{\LaTeXe}初級編』の6.5節
+% あたりを参照してください。
+%
+% \begin{Syntax}
+% |\begin{mytab}|\opa{位置指定子}\pa{見出し}\pa{ラベル} |\end{mytab}|\\
+% |\myimage|\opa{オプション}\pa{ファイル名}\pa{見出し}\pa{ラベル} 
+% \end{Syntax}
+% こちらの命令も『好き好き』を参照してください。
+%
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% \clearpage
+% \section*{ソースの解説}
+% 
+% \DescribeMacro{\RequirePackage}
+% \textsf{okumacro}からは|\keytop|命令を使っています．
+% \textsf{url}からは|\url|命令などを使っています．
+% 
+%    \begin{macrocode}
+\RequirePackage[obeyspaces,spaces]{url}
+\RequirePackage{okumacro}
+\RequirePackage{verbatim}
+%    \end{macrocode}
+% |\RequirePackage{txfonts}|はやめました[2004/07/20]。
+%
+% \DescribeMacro{\if@mid@}
+% 中間報告書と最終報告書を区別するためのブール値 |@mid@|
+% 定義します。\textsf{funpro}の任意引数（パッケージオプシ
+% ョン）に\textsl{middle}を渡すと「中間」、\textsl{final}
+% を渡すと「最終」の報告書用の体裁になります。
+%    \begin{macrocode}
+\newif\if@mid@
+\DeclareOption{middle}{\@mid@true}
+\DeclareOption{final}{\@mid@false}
+\ProcessOptions\relax
+%    \end{macrocode}
+%
+% \DescribeMacro{\mid@fin}
+% \DescribeMacro{\midorfin}
+% 中間・最終のどちらを執筆しているかによって出力形式
+% 決めます。ユーザレベルでは|\midorfin|命令を使います。
+% 1つ目の引数が中間用、2つ目の引数が最終用になります。
+%    \begin{macrocode}
+\def\mid@fin#1#2{\if@mid@ #1\else#2\fi}
+\let\midorfin\mid@fin
+%    \end{macrocode}
+%
+% \DescribeMacro{DeclareFontShape}
+% 不足すると思われるフォント属性を定義します。
+%    \begin{macrocode}
+\DeclareFontShape{JY1}{gt}{m}{sc}{<->ssub*gt/m/n}{}
+\DeclareFontShape{JT1}{gt}{m}{sc}{<->ssub*gt/m/n}{}
+\DeclareFontShape{JY1}{gt}{bx}{it}{<->ssub*gt/m/n}{}
+\DeclareFontShape{JT1}{gt}{bx}{it}{<->ssub*gt/m/n}{}
+%    \end{macrocode}
+%
+% \paragraph{ページレイアウト}
+% ページレイアウトは決め打ちです。ユーザによる変更は
+% 好ましくありません。
+%    \begin{macrocode}
+\newdimen\fullwidth
+\headheight=2\topskip
+\headsep=1zw
+\topmargin=-\headheight
+\advance\topmargin by -\headsep
+\advance\topmargin by -2zw
+\@setfontsize\normalsize{10pt}{15pt}
+\parindent=1zw
+\setlength\textwidth{44zw}
+\setlength\fullwidth{\textwidth}
+\setlength\textheight{45\baselineskip}
+\evensidemargin=-1zw
+\oddsidemargin=0pt
+\marginparpush=0pt
+\marginparwidth=0pt
+\marginparsep=0pt
+\setlength\footskip{20\p@}
+%    \end{macrocode}
+%
+% \DescribeMacro{\thisYear}
+% `2004'などの形式で年度を指定します。
+%    \begin{macrocode}
+\def\thisYear#1{\gdef\@Year{#1}}
+%    \end{macrocode}
+%
+% \DescribeMacro{\type}
+% 文中でのコンソールの入力を示すときには|\type|命令を使って
+% |\type{which perl &}|とすると\type{which perl &}となります。
+%    \begin{macrocode}
+\newif\if@TYPE
+\def\type{\@ifnextchar[{\@@type}{\@type}}
+\def\@hoge{\begingroup \urlstyle{tt}\Url}
+\def\@@type[#1]{\if@TYPE\item[{\ttfamily#1}]\fi\begingroup \urlstyle{tt}\Url}
+\def\@type#1{\if@TYPE \item\@hoge{#1}%
+      \else\underline{\@hoge{#1}}\fi}
+%    \end{macrocode}
+%
+% \begin{environment}{TYPE}
+% 別行に長いコンソール入力を示すときは|TYPE|環境で囲んで
+% あげます。1行に対して必ず|\type|命令を使い次のように入力します。
+% |TYPE|環境中の|\type|命令の先頭の記号は任意引数に指定できます。
+% 何も表示したくないときは|\type[]|と記述します。
+% \begin{verbatim}
+% \begin{TYPE}
+% \type{echo "hoge" && sleep 1 && su}
+% \type{cat /etc/passwd}
+% \type[\%]{cat /etc/passwd}
+% \type[]{cat hoge}
+% \end{TYPE}\end{verbatim}
+% 出力は次のようになります。段落の左側だけが字下げされます。
+% \begin{TYPE}
+% \type{echo "hoge" && sleep 1 && su}
+% \type{cat /etc/passwd}
+% \type[\%]{cat /etc/passwd}
+% \type[]{cat hoge}
+% \end{TYPE}
+%    \begin{macrocode}
+\def\TYPE{\@TYPEtrue%
+   \list{\mbox{\texttt\$}}{\rightmargin\z@}}
+\def\endTYPE{\endlist \@TYPEfalse}
+%    \end{macrocode}
+% \end{environment}
+%
+% \DescribeMacro{key}
+% キーボードの特定のキートップを示すときには|\key|命令を
+% 使います。複数のキーを同時に押すことを示すには|key|命令の
+% 引数に複数のキートップを半角カンマ（,）で区切って入力します。
+% 1つだけのときは|\key{Ctrl}|とすると\key{Ctrl}となります。
+% 2つ以上の時は|\key{Ctrl,Alt,F1}|とすると\key{Ctrl,Alt,F1}と
+% なります。\key{Ctrl,C}の後に続けて他のキーを入力することを
+% 示すためには|\key{Ctrl,C}\key{b}|とすると\key{Ctrl,C}\key{b}
+% となります。
+% リターンキーは|\return|とすると{\return}という出力が得られます。
+% 他にも|\upkey|、|\downkey|、|\leftkey|、|\rightkey|の方向
+% キーが用意されており、{\upkey}、{\downkey}、{\leftkey}、
+% {\rightkey}という出力になります。
+%    \begin{macrocode}
+\def\key{\thinspace\@key}%
+\def\@key#1{\@tempcnta=\z@%
+ \@for\member:=#1\do{%
+   \ifnum\@tempcnta<1%
+      \keytop{\member}%
+   \else%
+      \texttt{+}\keytop{\member}%
+   \fi%
+   \advance\@tempcnta\@ne}%
+ \thinspace}%
+%    \end{macrocode}
+%
+% \DescribeMacro{\dir}
+% ファイル名やディレクトリを示すときは|\dir|を使います．
+% 適宜スラッシュやドットの前で改行すべき時は改行を許します。
+% |\dir{/usr/local/bin/emacs}|とすると\dir{/usr/local/bin/emacs}
+% となります。
+%    \begin{macrocode}
+\def\dir{\begingroup \urlstyle{tt}\Url}
+%    \end{macrocode}
+%
+% \DescribeMacro{\suf}
+% 拡張子を示す場合は|\suf|命令を使います．引数にピリオドは
+% 省略します。|\suf{pl}|とすると`\suf{pl}'となります。
+%    \begin{macrocode}
+\newcommand{\suf}[1]{\texttt{.#1}}
+%    \end{macrocode}
+%
+% \begin{environment}{INPUT}
+% ファイルへの入力を示すときは|INPUT|環境を使います。
+%    \begin{macrocode}
+\newenvironment{INPUT}{
+  \list{}{\leftmargin=2zw \rightmargin=0zw}
+   \item\small\verbatim}{\endverbatim \endlist}%
+%    \end{macrocode}
+% \end{environment}
+%
+% \begin{environment}{CON}
+% コンソールからの出力を示すときは|CON|環境を使います。
+%    \begin{macrocode}
+\newenvironment{CON}{%
+  \list{}{\leftmargin=2zw \rightmargin=0zw}
+   \item\small\verbatim}{\endverbatim \endlist}%
+%    \end{macrocode}
+% \end{environment}
+%
+% \paragraph{表紙用の情報}
+% 各種表紙用の情報を入力するためのユーザレベルの
+% コマンドとマクロ側のコマンドを定義します。
+% \DescribeMacro{\ProjectLeader}
+% プロジェクトリーダは|\ProjectLeader|に書きます。
+% 基本的にどのメンバーも引数には「学籍番号」、「和文氏名」、
+% 「欧文氏名」を書きます。それ以外の引数の渡し方では表示が
+% おかしくなります。
+%    \begin{macrocode}
+\def\ProjectLeader#1#2#3{%
+  \gdef\@ProjectLeader{#1%
+  \hskip1.5zw #2\hskip1.5zw #3}}
+%    \end{macrocode}
+%
+% \DescribeMacro{\GroupLeader}
+% グループリーダです。
+%    \begin{macrocode}
+\def\GroupLeader#1#2#3{%
+  \gdef\@GroupLeader{#1%
+  \hskip1.5zw #2\hskip1.5zw #3}}
+%    \end{macrocode}
+%
+% \DescribeMacro{\GroupMember}
+% グループメンバーです。グループメンバはメンバーを識別するために
+% 1つ目の引数に1からはじまる番号を書きます。2つ目の引数から
+% 「学籍番号」、「和文氏名」、「欧文氏名」を書きます。
+% それ以外の引数の渡し方では表示がおかしくなります。
+%    \begin{macrocode}
+\def\GroupMember#1#2#3#4{%
+  \expandafter\gdef\csname @GroupMember#1\endcsname{%
+    #2\hskip1.5zw \hbox{#3\hfil}\hskip1.5zw #4}}
+%    \end{macrocode}
+%
+% \DescribeMacro{\jProjectName}
+% \DescribeMacro{\eProjectName}
+% プロジェクト名です。基本的に先頭に|j|がついている場合は
+% 和文用、|e|がついている場合は欧文用のコマンドになります。
+% 欧文用には任意引数として、ヘッダー用の短いタイトルを書くことができます。
+%    \begin{macrocode}
+\def\jProjectName#1{\gdef\@jProjectName{#1}}
+\def\eProjectName{\@ifnextchar[{\@@eProjectName}{\@@@eProjectName}}
+\def\@@eProjectName[#1]#2{%
+   \gdef\short@eProjectName{#1}%
+   \gdef\@eProjectName{#2}%
+}
+\def\@@@eProjectName#1{\gdef\@eProjectName{#1}}
+%    \end{macrocode}
+%
+% \DescribeMacro{\jGroupName}
+% \DescribeMacro{\eGroupName}
+% グループ名も同様です。
+%    \begin{macrocode}
+\def\jGroupName#1{\gdef\@jGroupName{#1}}
+\def\eGroupName#1{\gdef\@eGroupName{#1}}
+%    \end{macrocode}
+%
+% \DescribeMacro{\ProjectNumber}
+% プロジェクト番号を示すます\ud{2004/07/27}。
+%    \begin{macrocode}
+\def\ProjectNumber#1{\gdef\@ProjectNumber{#1}}
+%    \end{macrocode}
+%
+% \DescribeMacro{\jadvisor}
+% \DescribeMacro{\eadvisor}
+% 指導教員も同様です。ただし、複数の指導教員がいる時は
+% 半角カンマ (,) で区切ります。カンマの両側に余計な空白を
+% 挿入する必要はありません。実際に指導教員を表紙に出力する
+% 命令は|\show@jadvisor|と|\show@eadvisor|が行います。
+%    \begin{macrocode}
+\def\jadvisor#1{\gdef\@jadvisor{#1}}
+\def\eadvisor#1{\gdef\@eadvisor{#1}}
+\def\show@jadvisor{%
+  \@for\member:=\@jadvisor\do{\member\m@hskip}}
+\def\show@eadvisor{%
+  \@for\member:=\@eadvisor\do{\member\m@hskip}}
+%    \end{macrocode}
+%
+% \DescribeMacro{\jdate}
+% \DescribeMacro{\edate}
+% 提出日も同様です。
+%    \begin{macrocode}
+\gdef\jdate#1{\gdef\@jdate{#1}}
+\gdef\edate#1{\gdef\@edate{#1}}
+%    \end{macrocode}
+%
+% \DescribeMacro{\SumOfMembers}
+% メンバー数を定義します。マクロの都合上、人数を指定しないと
+% 正しく、グループメンバーを出力できません。リスト構造を使って
+% メンバー情報を保存できますが、マクロが大掛かりになるので
+% これで勘弁してください。
+%    \begin{macrocode}
+\newcount\@members
+\def\SumOfMembers#1{\@members=#1}
+\def\@show@members{%
+  \@tempcntb=\@members
+  \advance\@tempcntb\@ne
+  \@tempcnta=\z@
+  \@whilenum \@tempcnta<\@tempcntb
+    \do{\edef\h@ge{@GroupMember\the\@tempcnta}%
+      \hbox{\@nameuse{\h@ge}}\relax\advance\@tempcnta\@ne}}%
+%    \end{macrocode}
+%
+% \DescribeMacro{\reset@title}
+% レジスタの開放をします。表紙を出力した後は、その表紙の情報は
+% 使われないと思われますので、開放します。|\maketitle|命令
+% の後でも特定の情報を使いたいときは適当に
+% \begin{quote}
+%   \verb|\gdef\jProjectName{ほげを考える}|
+% \end{quote}
+% などとすると|\jProjectName|に「ほげを考える」という用語などが
+% 保存されます。
+%    \begin{macrocode}
+\def\reset@title{%
+  \global\let\thanks\relax
+  \global\let\@thanks\@empty
+  \global\let\title\relax
+  \global\let\@title\@empty
+  \global\let\author\relax
+  \global\let\@author\@empty
+  \global\let\date\relax
+  \global\let\@date\@empty
+  \global\let\and\relax
+  % プロジェクト名
+  \global\let\jProjectName\relax
+  \global\let\@jProjectName\@empty
+  %\global\let\eProjectName\relax
+  %\global\let\@eProjectName\@empty
+  % 短い欧文のプロジェクト名はヘッダーに使用するので開放しない
+  % \ud{2004/11/25}
+  %\global\let\short@eProjectName\@empty
+  % グループ名
+  \global\let\jGroupName\relax
+  \global\let\@jGroupName\@empty
+  \global\let\eGroupName\relax
+  \global\let\@eGroupName\@empty
+  % プロジェクト番号\ud{2004/07/27}
+  %\global\let\ProjectNumber\relax
+  % こちらもヘッダーに使用する\ud{2004/11/25}
+  %\global\let\@ProjectNumber\@empty
+  % 指導教員
+  \global\let\jadvisor\relax
+  \global\let\@jadvisor\@empty
+  \global\let\eadvisor\relax
+  \global\let\@eadvisor\@empty
+  \global\let\show@jadvisor\@empty
+  \global\let\show@eadvisor\@empty
+  % 提出日
+  \global\let\jdate\relax
+  \global\let\@jdate\@empty
+  \global\let\edate\relax
+  \global\let\@edate\@empty
+  % リーダ
+  \global\let\ProjectLeader\relax
+  \global\let\@ProjectLeader\@empty
+  \global\let\GroupLeader\relax
+  \global\let\@GroupLeader\@empty
+  % グループメンバー
+  \global\let\GroupMember\relax
+  \@tempcntb=\@members
+  \advance\@tempcntb\@ne
+  \@tempcnta=\z@
+  \@whilenum \@tempcnta<\@tempcntb
+    \do{\global\expandafter\let
+      \csname @GroupMember\the\@tempcnta\endcsname \@empty
+      \relax\advance\@tempcnta\@ne}}%
+%    \end{macrocode}
+%
+% \DescribeMacro{\s@hskip}
+% \DescribeMacro{\m@hskip}
+% \DescribeMacro{\l@hskip}
+% 水平方向の空白を定義します。スタイルファイルの中でいろいろ
+% 使われます。
+%    \begin{macrocode}
+\def\s@hskip{\hskip.5zw}
+\def\m@hskip{\hskip1zw}
+\def\l@hskip{\hskip2zw}
+%    \end{macrocode}
+%
+% \DescribeMacro{\s@vskip}
+% \DescribeMacro{\m@vskip}
+% \DescribeMacro{\l@vskip}
+% 水平方向の空白を定義します。スタイルファイルの中でいろいろ
+% 使われます。
+%    \begin{macrocode}
+\def\s@vskip{\vskip.5zw}
+\def\m@vskip{\vskip1zw}
+\def\l@vskip{\vskip2zw}
+%    \end{macrocode}
+%
+% \DescribeMacro{\maketitle}
+% 表紙を定義します。独断と偏見で体裁を決めていますから、
+% 若干日本人好みではない部分がありますが勘弁してください。\par
+% 2004年7月2日にレジスタの開放に関するバグを修正しました。
+% |\@maketitle|と|\reset@title|を開放します。これは|\maketitle|
+% から呼び出されます。|reset@title|は相変わらず|@maketitle|から呼び出されます。
+%    \begin{macrocode}
+\def\maketitle{%
+  \@maketitle
+  \let\@maketitle\@empty 
+  \let\reset@title\@empty
+  \if@openright
+    \cleardoublepage
+  \else
+    \clearpage
+  \fi
+}
+\def\@maketitle{%
+  \begingroup
+  \begin{titlepage}%
+    \let\footnotesize\small
+    \let\footnoterule\relax
+    \let\footnote\relax
+    \begin{center}%
+    \thispagestyle{empty}%
+      {\Large\headfont 公立はこだて未来大学~\@Year~年度\space
+        システム情報科学実習\par
+%        \mid@fin{中間}{最終}報告書}\par\s@vskip
+% なぜかは知らないけれど、いつの間にか更新されていた
+        グループ報告書}\par\s@vskip
+      {\headfont Future~University-Hakodate\space\@Year\space
+       System\space Information\space Science Practice%
+%        \par\mid@fin{Midterm}{Final}~Report}\par\m@vskip
+         \space Group~Report}\par\s@vskip
+      {\large\headfont プロジェクト名}\par\@jProjectName\par
+      {\large\headfont Project Name}\par\@eProjectName\par\m@vskip
+      {\large\headfont グループ名}\par\@jGroupName\par
+      {\large\headfont Group Name}\par\@eGroupName\par\m@vskip
+      {\headfont プロジェクト番号/Project~No.}\par\@ProjectNumber\par\m@vskip
+      {\large\headfont プロジェクトリーダ/Project~Leader}\par
+        \@ProjectLeader\hfill\par\m@vskip
+      {\large\headfont グループリーダ/Group~Leader}\par
+        \@GroupLeader\hfill\par\m@vskip
+      {\large\headfont グループメンバ/Group~Member}\par
+        \mbox{\vbox{\@show@members}}\par\m@vskip
+      {\large\headfont 指導教員}\par\show@jadvisor\par
+      {\large\headfont Advisor}\par\show@eadvisor\par\m@vskip
+      {\large\headfont 提出日}\par\@jdate\par
+      {\large\headfont Date of Submission}\par\@edate
+    \end{center}%
+    \vfil\null%
+  \end{titlepage}%
+  \endgroup
+  \setcounter{footnote}{0}%
+  \reset@title% ここでレジスタの開放
+  }%
+%    \end{macrocode}
+%
+% \DescribeMacro{tocdepth}
+% 目次の深さは小節レベルまで出力します。
+%    \begin{macrocode}
+\setcounter{tocdepth}{2}
+%    \end{macrocode}
+%
+% \DescribeMacro{\@makechapterhead}
+% 章見出しについては番号の段階で改行しないように
+% 変更しました。
+%    \begin{macrocode}
+\def\@makechapterhead#1{%
+  \vspace*{.5\Cvs}
+  {\parindent \z@ \raggedright \normalfont
+    \ifnum \c@secnumdepth >\m@ne
+      \if@mainmatter
+        \huge\headfont \@chapapp\thechapter\@chappos
+        \hskip 1zw
+      \fi
+    \fi
+    \interlinepenalty\@M
+    \huge \headfont #1\par\nobreak
+    \vskip 1.5\Cvs}}
+\def\@makeschapterhead#1{%
+  \vspace*{.5\Cvs}
+  {\parindent \z@ \raggedright
+    \normalfont
+    \interlinepenalty\@M
+    \huge \headfont #1\par\nobreak
+    \vskip 1.5\Cvs}}
+%    \end{macrocode}
+%
+% \DescribeMacro{\headfont}
+% 見出し用のフォントを決定するコマンドです。
+% ここでは和文はゴチック体、欧文はTimes Boldになります。
+%    \begin{macrocode}
+\renewcommand{\headfont}{\reset@font\gtfamily\bfseries}
+%    \end{macrocode}
+%
+% \begin{environment}{eabstract}
+% 欧文の概要を書くための環境です。フォントサイズは1段階
+% 小さくしていますし、行間も狭くなります。最後に改ページ
+% します。
+%    \begin{macrocode}
+\newenvironment{eabstract}{%
+   \centerline{\Large\headfont Abstract}\par%
+   \begin{list}{}{%
+      \leftmargin=3zw
+      \rightmargin\leftmargin
+      \listparindent0pt}\item[]\relax
+      \small\narrowbaselines}%
+   {\end{list}\par\clearpage}%
+%    \end{macrocode}
+% \end{environment}
+%
+% \begin{environment}{jabstract}
+% 和文の概要を書くための環境です。フォントサイズは1段階
+% 小さくなりますが、行間は和文用の行間のままです。
+% 結びに改ページします。
+%    \begin{macrocode}
+\newenvironment{jabstract}{%
+   \centerline{\Large\headfont 概要}\par%
+   \begin{list}{}{%
+      \leftmargin=3zw
+      \rightmargin\leftmargin
+      \listparindent0pt}\item[]\relax
+      \small\widebaselines}%
+   {\end{list}\par\clearpage}
+%    \end{macrocode}
+% \end{environment}
+%
+% \DescribeMacro{ekeyword}
+% \DescribeMacro{jkeyword}
+% 概要においてキーワードを出力したいときは|\jkeyword|命令や
+% |\ekeyword|命令を使います。それぞれ和文、欧文に対応します。
+%    \begin{macrocode}
+\newenvironment{ekeyword}{%
+   \m@vskip{\headfont\small Keyword\quad}\small}{}
+\newenvironment{jkeyword}{%
+   \m@vskip{\headfont\small キーワード\quad}\small}{}
+%    \end{macrocode}
+%
+% \DescribeMacro{\paragraph}
+% \DescribeMacro{\subparagraph}
+% 段落、小段落用の環境を再定義します。
+%    \begin{macrocode}
+\if@twocolumn
+  \renewcommand{\paragraph}{\@startsection{paragraph}{4}{\z@}%
+    {\z@}{-1zw}% 改行せず 1zw のアキ
+    {\normalfont\normalsize\headfont}}
+\else
+  \renewcommand{\paragraph}{\@startsection{paragraph}{4}{\z@}%
+    {0.5\Cvs \@plus.5\Cdp \@minus.2\Cdp}%
+    {-1zw}% 改行せず 1zw のアキ
+    {\normalfont\normalsize\headfont}}
+\fi
+%    \end{macrocode}
+%
+% \DescribeMacro{\pagestyle}
+% ページスタイルは柱には何も出力せず、ノンブルに
+% ページ番号を出力するシンプルな物を採用します。
+% しかし、後期になってなんだかいろいろ変更されたようです。
+%    \begin{macrocode}
+\def\ps@plainfront{%
+  \let\@mkboth\@gobbletwo
+  \let\@oddhead\@empty
+  \let\@evenhead\@oddhead
+  \def\@oddfoot{%
+     \normalfont\hfil\lower-.2ex\hbox{-}\space\thepage
+     \space\lower-.2ex\hbox{-}\hfil}%
+  \let\@evenfoot\@oddfoot
+}
+%
+\global\let\ps@plainhead\@empty
+\global\let\ps@plainfoot\@empty
+\global\let\ps@plain\@empty
+\global\let\ps@myheadings\@empty
+\global\let\ps@headings\@empty
+%
+\def\plainifnotempty{%
+  \if@mainmatter
+     \thispagestyle{plainmain}%   
+  \else
+     \thispagestyle{plainfront}%
+  \fi
+}
+%
+\def\ps@plainmain{%
+  \let\@mkboth\@gobbletwo
+  \def\@oddhead{\ifx\short@eProjectName\@undefined
+     \@eProjectName\else\short@eProjectName\fi\hfill}%
+  \let\@evenhead\@oddhead
+  \def\@oddfoot{\normalfont
+     Group~Report~of~\@Year~SISP\space\hfil
+     \lower-.2ex\hbox{-}\space\thepage\space\lower-.2ex\hbox{-}\hfil
+     Group~Number\space\@ProjectNumber}%
+  \let\@evenfoot\@oddfoot
+}
+%
+\def\mainmatter{%
+  \if@openright
+    \cleardoublepage
+  \else
+    \clearpage
+  \fi
+  \@mainmattertrue
+  \pagestyle{plainmain}%
+  \pagenumbering{arabic}%
+}
+%
+\pagestyle{plainfront}
+%    \end{macrocode}
+%
+% \DescribeMacro{\bunseki}
+% 節や小節の末尾に文責を示すための命令です。
+%    \begin{macrocode}
+\def\bunseki#1{%
+  \begin{flushright}%
+    \mbox{（文責:~#1）}%
+\end{flushright}}%
+%    \end{macrocode}
+%
+% \DescribeMacro{\qu}
+% \DescribeMacro{\qq}
+% 欧文の引用には|\qu|と|\qq|を使います．単語の引用は|\qu|で，
+% 文の引用には|\qq|を使うようにします．
+% \DescribeMacro{\yo}
+% \DescribeMacro{\yy}
+% 和文の引用には|\yo|と|\yy|を使います．これも同じように
+% 単語には|\yo|で，文には|\yy|です．
+% \DescribeMacro{\pp}
+% 丸括弧で括る場合は|\pp|命令を使います．全角丸括弧が使われます．
+% \DescribeMacro{\wasyo}
+% \DescribeMacro{\yousyo}
+% 雑誌名や書籍名を参照するときは|\wasyo|と|\yousyo|命令を
+% 使います．和書の場合は|\wasyo|，洋書の場合は|\yousyo|です．
+% わかりやすいでしょう？
+%    \begin{macrocode}
+\newcommand{\qu}[1]{`#1'}
+\newcommand{\qq}[1]{``#1''}
+\newcommand{\yo}[1]{「#1」}
+\newcommand{\yy}[1]{『#1』}
+\newcommand{\pp}[1]{（#1）}
+\newcommand{\wasyo}[1]{『#1』}
+\newcommand{\yousyo}[1]{\emph{#1}}
+%    \end{macrocode}
+%
+% \DescribeMacro{\chaplab}
+% \DescribeMacro{\chapref}
+% 章にラベルをつける場合は|\chaplab|命令を使います。
+% 接頭語|chap:|が自動的に付加されますので|\chaplab{chap:hoge}|
+% とはせずに、|\chaplab{hoge}|としてください。これを参照するときは
+% |\chapref{hoge}|としてください。
+%    \begin{macrocode}
+\newcommand{\chaplab}[1]{\label{chap:#1}}
+\newcommand{\chapref}[1]{第~\ref{chap:#1}~章}
+%    \end{macrocode}
+% \DescribeMacro{\seclab}
+% \DescribeMacro{\secref}
+% 節も同様に|\seclab|と|\secref|の2つの命令を使います。
+%    \begin{macrocode}
+\newcommand{\seclab}[1]{\label{sec:#1}}
+\newcommand{\secref}[1]{\ref{sec:#1}~節}
+%    \end{macrocode}
+% \DescribeMacro{\applab}
+% \DescribeMacro{\appref}
+% 付録の特定の章を参照するときは|\applab|と|\appref|命令を
+% 使います。付録中の節を参照するには前述の|\seclab|と|\secref|
+% を使います。
+%    \begin{macrocode}
+\newcommand{\applab}[1]{\label{app:#1}}
+\newcommand{\appref}[1]{付録~\ref{app:#1}}
+%    \end{macrocode}
+% \DescribeMacro{\figlab}
+% \DescribeMacro{\figref}
+% 図にラベルを貼るときは|\figlab|、参照するときには|\figref|を
+% 使います。
+%    \begin{macrocode}
+\newcommand{\figlab}[1]{\label{fig:#1}}
+\newcommand{\figref}[1]{図~\ref{fig:#1}}
+%    \end{macrocode}
+% \DescribeMacro{\tablab}
+% \DescribeMacro{\tabref}
+% 表も同様に|\tablab|と|\tabref|を使います。
+%    \begin{macrocode}
+\newcommand{\tablab}[1]{\label{tab:#1}}
+\newcommand{\tabref}[1]{表~\ref{tab:#1}}
+%    \end{macrocode}
+% \DescribeMacro{\equlab}
+% \DescribeMacro{\equref}
+% 式については参照方法が色々あるのですが、次のような体裁にします。
+%    \begin{macrocode}
+\newcommand{\equlab}[1]{\label{equ:#1}}
+\newcommand{\equref}[1]{式~(\ref{equ:#1})}
+%    \end{macrocode}
+%
+% \DescribeMacro{\pref}
+% ページ番号を参照するには|\pref|命令を使います。通常、節や
+% 章を参照するときは、その章節の番号のみを示します。ページ番号を
+% 示す必要はありません。
+%    \begin{macrocode}
+\newcommand{\pref}[1]{\pageref{#1}~ページ}
+%    \end{macrocode}
+%
+% \begin{environment}{mytab}
+% 表は通し番号をつけ中央揃えにし、表の上部に表見出しをつけます。
+% そのため任意の表（|tabular|環境などで作成した）を
+% |mytab|環境に入れ子にします。
+%    \begin{macrocode}
+\newenvironment{mytab}[3][htbp]{%
+  \begin{table}[#1]\begin{center}\caption{#2}\tablab{#3}}%
+  {\end{center}\end{table}}%
+%    \end{macrocode}
+% \end{environment}
+%
+% \DescribeMacro{\myimage}
+% EPSなどの画像に関しては|\myimage|命令を使います。
+% 1つ目の引数に画像を張り込むときのオプション、2つ目に
+% ファイル名、3つ目にキャプション、4つ目にラベルをつけます。
+% ラベルには自動的に接頭語|fig:|が付加されますので、|{fig:hoge}|
+% のような指定にはしません。
+%    \begin{macrocode}
+\newcommand{\myimage}[4][width=.8\textwidth]{%
+  \begin{figure}[htbp]%
+    \centering\includegraphics[#1]{#2}%
+    \caption{#3}\figlab{#4}%
+  \end{figure}}%
+%    \end{macrocode}
+%
+% \begin{environment}{hissu}
+% ユーザは使わない命令です。
+%    \begin{macrocode}
+\def\hissu{\par\noindent\color{red}/*\space}
+\def\endhissu{\space*/\par\color{black}}
+%    \end{macrocode}
+% \end{environment}
+%    \begin{macrocode}
+%</funpro>
+\endinput
+%    \end{macrocode}
+%
+% \Finale

@@ -1,0 +1,353 @@
+%%
+%% This is file `funpro.sty',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% funpro.dtx  (with options: `funpro')
+%% Copyright (C) 2004 by Thor Watanabe
+%% 
+%% This file may be distributed and/or modified under the
+%% conditions of the LaTeX Project Public License, either
+%% version 1.2 of this license or (at your option) any later
+%% version.  The latest version of this license is in:
+%% 
+%%    http://www.latex-project.org/lppl.txt
+%% 
+%% and version 1.2 or later is part of all distributions of
+%% LaTeX version 1999/12/01 or later.
+%% 
+\NeedsTeXFormat{pLaTeX2e}
+\ProvidesPackage{funpro}
+   [2004/11/25 v2.0 Thor]
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\RequirePackage[obeyspaces,spaces]{url}
+\RequirePackage{okumacro}
+\RequirePackage{verbatim}
+\newif\if@mid@
+\DeclareOption{middle}{\@mid@true}
+\DeclareOption{final}{\@mid@false}
+\ProcessOptions\relax
+\def\mid@fin#1#2{\if@mid@ #1\else#2\fi}
+\let\midorfin\mid@fin
+\DeclareFontShape{JY1}{gt}{m}{sc}{<->ssub*gt/m/n}{}
+\DeclareFontShape{JT1}{gt}{m}{sc}{<->ssub*gt/m/n}{}
+\DeclareFontShape{JY1}{gt}{bx}{it}{<->ssub*gt/m/n}{}
+\DeclareFontShape{JT1}{gt}{bx}{it}{<->ssub*gt/m/n}{}
+\newdimen\fullwidth
+\headheight=2\topskip
+\headsep=1zw
+\topmargin=-\headheight
+\advance\topmargin by -\headsep
+\advance\topmargin by -2zw
+\@setfontsize\normalsize{10pt}{15pt}
+\parindent=1zw
+\setlength\textwidth{44zw}
+\setlength\fullwidth{\textwidth}
+\setlength\textheight{45\baselineskip}
+\evensidemargin=-1zw
+\oddsidemargin=0pt
+\marginparpush=0pt
+\marginparwidth=0pt
+\marginparsep=0pt
+\setlength\footskip{20\p@}
+\def\thisYear#1{\gdef\@Year{#1}}
+\newif\if@TYPE
+\def\type{\@ifnextchar[{\@@type}{\@type}}
+\def\@hoge{\begingroup \urlstyle{tt}\Url}
+\def\@@type[#1]{\if@TYPE\item[{\ttfamily#1}]\fi\begingroup \urlstyle{tt}\Url}
+\def\@type#1{\if@TYPE \item\@hoge{#1}%
+      \else\underline{\@hoge{#1}}\fi}
+\def\TYPE{\@TYPEtrue%
+   \list{\mbox{\texttt\$}}{\rightmargin\z@}}
+\def\endTYPE{\endlist \@TYPEfalse}
+\def\key{\thinspace\@key}%
+\def\@key#1{\@tempcnta=\z@%
+ \@for\member:=#1\do{%
+   \ifnum\@tempcnta<1%
+      \keytop{\member}%
+   \else%
+      \texttt{+}\keytop{\member}%
+   \fi%
+   \advance\@tempcnta\@ne}%
+ \thinspace}%
+\def\dir{\begingroup \urlstyle{tt}\Url}
+\newcommand{\suf}[1]{\texttt{.#1}}
+\newenvironment{INPUT}{
+  \list{}{\leftmargin=2zw \rightmargin=0zw}
+   \item\small\verbatim}{\endverbatim \endlist}%
+\newenvironment{CON}{%
+  \list{}{\leftmargin=2zw \rightmargin=0zw}
+   \item\small\verbatim}{\endverbatim \endlist}%
+\def\ProjectLeader#1#2#3{%
+  \gdef\@ProjectLeader{#1%
+  \hskip1.5zw #2\hskip1.5zw #3}}
+\def\GroupLeader#1#2#3{%
+  \gdef\@GroupLeader{#1%
+  \hskip1.5zw #2\hskip1.5zw #3}}
+\def\GroupMember#1#2#3#4{%
+  \expandafter\gdef\csname @GroupMember#1\endcsname{%
+    #2\hskip1.5zw \hbox{#3\hfil}\hskip1.5zw #4}}
+\def\jProjectName#1{\gdef\@jProjectName{#1}}
+\def\eProjectName{\@ifnextchar[{\@@eProjectName}{\@@@eProjectName}}
+\def\@@eProjectName[#1]#2{%
+   \gdef\short@eProjectName{#1}%
+   \gdef\@eProjectName{#2}%
+}
+\def\@@@eProjectName#1{\gdef\@eProjectName{#1}}
+\def\jGroupName#1{\gdef\@jGroupName{#1}}
+\def\eGroupName#1{\gdef\@eGroupName{#1}}
+\def\ProjectNumber#1{\gdef\@ProjectNumber{#1}}
+\def\jadvisor#1{\gdef\@jadvisor{#1}}
+\def\eadvisor#1{\gdef\@eadvisor{#1}}
+\def\show@jadvisor{%
+  \@for\member:=\@jadvisor\do{\member\m@hskip}}
+\def\show@eadvisor{%
+  \@for\member:=\@eadvisor\do{\member\m@hskip}}
+\gdef\jdate#1{\gdef\@jdate{#1}}
+\gdef\edate#1{\gdef\@edate{#1}}
+\newcount\@members
+\def\SumOfMembers#1{\@members=#1}
+\def\@show@members{%
+  \@tempcntb=\@members
+  \advance\@tempcntb\@ne
+  \@tempcnta=\z@
+  \@whilenum \@tempcnta<\@tempcntb
+    \do{\edef\h@ge{@GroupMember\the\@tempcnta}%
+      \hbox{\@nameuse{\h@ge}}\relax\advance\@tempcnta\@ne}}%
+\def\reset@title{%
+  \global\let\thanks\relax
+  \global\let\@thanks\@empty
+  \global\let\title\relax
+  \global\let\@title\@empty
+  \global\let\author\relax
+  \global\let\@author\@empty
+  \global\let\date\relax
+  \global\let\@date\@empty
+  \global\let\and\relax
+  % プロジェクト名
+  \global\let\jProjectName\relax
+  \global\let\@jProjectName\@empty
+  %\global\let\eProjectName\relax
+  %\global\let\@eProjectName\@empty
+  % 短い欧文のプロジェクト名はヘッダーに使用するので開放しない
+  % \ud{2004/11/25}
+  %\global\let\short@eProjectName\@empty
+  % グループ名
+  \global\let\jGroupName\relax
+  \global\let\@jGroupName\@empty
+  \global\let\eGroupName\relax
+  \global\let\@eGroupName\@empty
+  % プロジェクト番号\ud{2004/07/27}
+  %\global\let\ProjectNumber\relax
+  % こちらもヘッダーに使用する\ud{2004/11/25}
+  %\global\let\@ProjectNumber\@empty
+  % 指導教員
+  \global\let\jadvisor\relax
+  \global\let\@jadvisor\@empty
+  \global\let\eadvisor\relax
+  \global\let\@eadvisor\@empty
+  \global\let\show@jadvisor\@empty
+  \global\let\show@eadvisor\@empty
+  % 提出日
+  \global\let\jdate\relax
+  \global\let\@jdate\@empty
+  \global\let\edate\relax
+  \global\let\@edate\@empty
+  % リーダ
+  \global\let\ProjectLeader\relax
+  \global\let\@ProjectLeader\@empty
+  \global\let\GroupLeader\relax
+  \global\let\@GroupLeader\@empty
+  % グループメンバー
+  \global\let\GroupMember\relax
+  \@tempcntb=\@members
+  \advance\@tempcntb\@ne
+  \@tempcnta=\z@
+  \@whilenum \@tempcnta<\@tempcntb
+    \do{\global\expandafter\let
+      \csname @GroupMember\the\@tempcnta\endcsname \@empty
+      \relax\advance\@tempcnta\@ne}}%
+\def\s@hskip{\hskip.5zw}
+\def\m@hskip{\hskip1zw}
+\def\l@hskip{\hskip2zw}
+\def\s@vskip{\vskip.5zw}
+\def\m@vskip{\vskip1zw}
+\def\l@vskip{\vskip2zw}
+\def\maketitle{%
+  \@maketitle
+  \let\@maketitle\@empty
+  \let\reset@title\@empty
+  \if@openright
+    \cleardoublepage
+  \else
+    \clearpage
+  \fi
+}
+\def\@maketitle{%
+  \begingroup
+  \begin{titlepage}%
+    \let\footnotesize\small
+    \let\footnoterule\relax
+    \let\footnote\relax
+    \begin{center}%
+    \thispagestyle{empty}%
+      {\Large\headfont 公立はこだて未来大学~\@Year~年度\space
+        システム情報科学実習\par
+        グループ報告書}\par\s@vskip
+      {\headfont Future~University-Hakodate\space\@Year\space
+       System\space Information\space Science Practice%
+         \space Group~Report}\par\s@vskip
+      {\large\headfont プロジェクト名}\par\@jProjectName\par
+      {\large\headfont Project Name}\par\@eProjectName\par\m@vskip
+      {\large\headfont グループ名}\par\@jGroupName\par
+      {\large\headfont Group Name}\par\@eGroupName\par\m@vskip
+      {\headfont プロジェクト番号/Project~No.}\par\@ProjectNumber\par\m@vskip
+      {\large\headfont プロジェクトリーダ/Project~Leader}\par
+        \@ProjectLeader\hfill\par\m@vskip
+      {\large\headfont グループリーダ/Group~Leader}\par
+        \@GroupLeader\hfill\par\m@vskip
+      {\large\headfont グループメンバ/Group~Member}\par
+        \mbox{\vbox{\@show@members}}\par\m@vskip
+      {\large\headfont 指導教員}\par\show@jadvisor\par
+      {\large\headfont Advisor}\par\show@eadvisor\par\m@vskip
+      {\large\headfont 提出日}\par\@jdate\par
+      {\large\headfont Date of Submission}\par\@edate
+    \end{center}%
+    \vfil\null%
+  \end{titlepage}%
+  \endgroup
+  \setcounter{footnote}{0}%
+  \reset@title% ここでレジスタの開放
+  }%
+\setcounter{tocdepth}{2}
+\def\@makechapterhead#1{%
+  \vspace*{.5\Cvs}
+  {\parindent \z@ \raggedright \normalfont
+    \ifnum \c@secnumdepth >\m@ne
+      \if@mainmatter
+        \huge\headfont \@chapapp\thechapter\@chappos
+        \hskip 1zw
+      \fi
+    \fi
+    \interlinepenalty\@M
+    \huge \headfont #1\par\nobreak
+    \vskip 1.5\Cvs}}
+\def\@makeschapterhead#1{%
+  \vspace*{.5\Cvs}
+  {\parindent \z@ \raggedright
+    \normalfont
+    \interlinepenalty\@M
+    \huge \headfont #1\par\nobreak
+    \vskip 1.5\Cvs}}
+\renewcommand{\headfont}{\reset@font\gtfamily\bfseries}
+\newenvironment{eabstract}{%
+   \centerline{\Large\headfont Abstract}\par%
+   \begin{list}{}{%
+      \leftmargin=3zw
+      \rightmargin\leftmargin
+      \listparindent0pt}\item[]\relax
+      \small\narrowbaselines}%
+   {\end{list}\par\clearpage}%
+\newenvironment{jabstract}{%
+   \centerline{\Large\headfont 概要}\par%
+   \begin{list}{}{%
+      \leftmargin=3zw
+      \rightmargin\leftmargin
+      \listparindent0pt}\item[]\relax
+      \small\widebaselines}%
+   {\end{list}\par\clearpage}
+\newenvironment{ekeyword}{%
+   \m@vskip{\headfont\small Keyword\quad}\small}{}
+\newenvironment{jkeyword}{%
+   \m@vskip{\headfont\small キーワード\quad}\small}{}
+\if@twocolumn
+  \renewcommand{\paragraph}{\@startsection{paragraph}{4}{\z@}%
+    {\z@}{-1zw}% 改行せず 1zw のアキ
+    {\normalfont\normalsize\headfont}}
+\else
+  \renewcommand{\paragraph}{\@startsection{paragraph}{4}{\z@}%
+    {0.5\Cvs \@plus.5\Cdp \@minus.2\Cdp}%
+    {-1zw}% 改行せず 1zw のアキ
+    {\normalfont\normalsize\headfont}}
+\fi
+\def\ps@plainfront{%
+  \let\@mkboth\@gobbletwo
+  \let\@oddhead\@empty
+  \let\@evenhead\@oddhead
+  \def\@oddfoot{%
+     \normalfont\hfil\lower-.2ex\hbox{-}\space\thepage
+     \space\lower-.2ex\hbox{-}\hfil}%
+  \let\@evenfoot\@oddfoot
+}
+\global\let\ps@plainhead\@empty
+\global\let\ps@plainfoot\@empty
+\global\let\ps@plain\@empty
+\global\let\ps@myheadings\@empty
+\global\let\ps@headings\@empty
+\def\plainifnotempty{%
+  \if@mainmatter
+     \thispagestyle{plainmain}%
+  \else
+     \thispagestyle{plainfront}%
+  \fi
+}
+\def\ps@plainmain{%
+  \let\@mkboth\@gobbletwo
+  \def\@oddhead{\ifx\short@eProjectName\@undefined
+     \@eProjectName\else\short@eProjectName\fi\hfill}%
+  \let\@evenhead\@oddhead
+  \def\@oddfoot{\normalfont
+     Group~Report~of~\@Year~SISP\space\hfil
+     \lower-.2ex\hbox{-}\space\thepage\space\lower-.2ex\hbox{-}\hfil
+     Group~Number\space\@ProjectNumber}%
+  \let\@evenfoot\@oddfoot
+}
+\def\mainmatter{%
+  \if@openright
+    \cleardoublepage
+  \else
+    \clearpage
+  \fi
+  \@mainmattertrue
+  \pagestyle{plainmain}%
+  \pagenumbering{arabic}%
+}
+\pagestyle{plainfront}
+\def\bunseki#1{%
+  \begin{flushright}%
+    \mbox{（文責:~#1）}%
+\end{flushright}}%
+\newcommand{\qu}[1]{`#1'}
+\newcommand{\qq}[1]{``#1''}
+\newcommand{\yo}[1]{「#1」}
+\newcommand{\yy}[1]{『#1』}
+\newcommand{\pp}[1]{（#1）}
+\newcommand{\wasyo}[1]{『#1』}
+\newcommand{\yousyo}[1]{\emph{#1}}
+\newcommand{\chaplab}[1]{\label{chap:#1}}
+\newcommand{\chapref}[1]{第~\ref{chap:#1}~章}
+\newcommand{\seclab}[1]{\label{sec:#1}}
+\newcommand{\secref}[1]{\ref{sec:#1}~節}
+\newcommand{\applab}[1]{\label{app:#1}}
+\newcommand{\appref}[1]{付録~\ref{app:#1}}
+\newcommand{\figlab}[1]{\label{fig:#1}}
+\newcommand{\figref}[1]{図~\ref{fig:#1}}
+\newcommand{\tablab}[1]{\label{tab:#1}}
+\newcommand{\tabref}[1]{表~\ref{tab:#1}}
+\newcommand{\equlab}[1]{\label{equ:#1}}
+\newcommand{\equref}[1]{式~(\ref{equ:#1})}
+\newcommand{\pref}[1]{\pageref{#1}~ページ}
+\newenvironment{mytab}[3][htbp]{%
+  \begin{table}[#1]\begin{center}\caption{#2}\tablab{#3}}%
+  {\end{center}\end{table}}%
+\newcommand{\myimage}[4][width=.8\textwidth]{%
+  \begin{figure}[htbp]%
+    \centering\includegraphics[#1]{#2}%
+    \caption{#3}\figlab{#4}%
+  \end{figure}}%
+\def\hissu{\par\noindent\color{red}/*\space}
+\def\endhissu{\space*/\par\color{black}}
+\endinput
+%%
+%% End of file `funpro.sty'.

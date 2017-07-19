@@ -17,6 +17,9 @@
   \setcounter{hoge}{0}}
 % <-- ここまで 削除してもよい
 
+% ファイル分割のためのパッケージ
+\usepackage{subfiles}
+
 % 年度の指定
 \thisYear{2017}
 
@@ -69,11 +72,11 @@
 \frontmatter
 
 % 和文概要
-\begin{jabstract} 日本語の概要を書く。
-\fake{ここに日本語の概要を書きます。}
+\begin{jabstract}
+\subfile{sections/0-overview}
 % 和文キーワード
 \begin{jkeyword}
-キーワード1, キーワード2, キーワード3, キーワード4, キーワード5
+高齢者、認知症、医療、生活習慣、食習慣、ライフログ、カメラ
 \end{jkeyword}
 \bunseki{未来太郎}
 \end{jabstract}

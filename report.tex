@@ -4,11 +4,11 @@
 \documentclass[openany,11pt,papersize]{jsbook}
 
 % 報告書提出用スタイルファイル
-\usepackage[final]{funpro}%最終報告書
-%\usepackage[middle]{funpro}%中間報告書
+%\usepackage[final]{funpro}%最終報告書
+\usepackage[middle]{funpro}%中間報告書
 
 % 画像ファイル (EPS, EPDF, PNG) を読み込むために
-\usepackage[dvipdfmx]{graphicx,color}
+\usepackage[dvipdfmx]{graphicx,color,hyperref}
 
 % ここから -->
 \usepackage{calc,ifthen}
@@ -20,11 +20,14 @@
 % ファイル分割のためのパッケージ
 \usepackage{subfiles}
 
+% url表記
+\usepackage{url}
+
 % 年度の指定
 \thisYear{2017}
 
 % プロジェクト名
-\jProjectName{使ってもらって学ぶフィールド指向システムデザイン}
+\jProjectName{使ってもらって学ぶフィールド指向システムデザイン2017}
 
 % [簡易版のプロジェクト名]{正式なプロジェクト名}
 % 欧文のプロジェクト名が極端に長い（2行を超える）場合は、短い記述を
@@ -41,10 +44,10 @@
 \eGroupName{Group~C}
 
 % プロジェクトリーダ
-\ProjectLeader{1200000}{西谷歩}{Ayumi~Nishiya}
+\ProjectLeader{1015061}{西谷歩}{Ayumi~Nishiya}
 
 % グループリーダ
-\GroupLeader  {1015174}{山根春樹}{Haruki~Yamane}
+\GroupLeader  {1015174}{山根春貴}{Haruki~Yamane}
 
 % メンバー数
 \SumOfMembers{4}
@@ -52,15 +55,15 @@
 \GroupMember  {1}{1015117}{佐藤碧}{Aoi~Sato}
 \GroupMember  {2}{1015078}{佐藤礼於}{Leo~Sato}
 \GroupMember  {3}{1015216}{堀沙枝香}{Saeka~Hori}
-\GroupMember  {4}{1015259}{頼亜弥}{Aya~Hori}
+\GroupMember  {4}{1015259}{頼亜弥}{Aya~Rai}
 
 % 指導教員
 \jadvisor{伊藤恵,南部美砂子,奥野拓,原田泰}
 % 複数人数いる場合はカンマ(,)で区切る。カンマの前後に空白は入れない。
-\eadvisor{Kei~Ito,Misako~Nanbu,Taku~Okuno,Takashi~Harada}
+\eadvisor{Kei~Ito,Misako~Nambu,Taku~Okuno,Yasushi~Harada}
 
 % 論文提出日
-\jdate{20017年7月26日}
+\jdate{2017年7月26日}
 \edate{July~26, 2017}
 
 \begin{document}
@@ -71,25 +74,8 @@
 %前付け
 \frontmatter
 
-% 和文概要
-\begin{jabstract}
+% 概要
 \subfile{sections/0-overview}
-% 和文キーワード
-\begin{jkeyword}
-高齢者、認知症、医療、生活習慣、食習慣、ライフログ、カメラ
-\end{jkeyword}
-\bunseki{佐藤礼於}
-\end{jabstract}
-
-%英語の概要
-\begin{eabstract} Abstract in English.
-\fake{you should write your English abstract in one page. }
-% 英文キーワード
-\begin{ekeyword}
-Keyrods1, Keyword2, Keyword3, Keyword4, Keyword5
-\end{ekeyword}
-\bunseki{佐藤礼於}
-\end{eabstract}
 
 \tableofcontents% 目次
 
@@ -123,25 +109,11 @@ Keyrods1, Keyword2, Keyword3, Keyword4, Keyword5
 % 以降、付録(付属資料)であることを示す
 \begin{appendix}
 
-\chapter{新規習得技術}
-\begin{hissu}
-課題解決過程に習得した技術について解説する。
-\end{hissu}
+\chapter{その他新規習得技術}
+\subfile{sections/z1-gizyutsu}
 
 \chapter{活用した講義}
-\begin{hissu}
-課題解決過程において活用した講義について、講義名・活用内容を記述する。
-\end{hissu}
-
-\chapter{相互評価}
-\begin{hissu}
-課題解決過程で分担し、連携した作業全般について、互いに客観的に評価する。
-\end{hissu}
-
-\chapter{その他製作物}
-\begin{hissu}
-その他成果物をプロジェクトの担当教員の指示に従って添付する。
-\end{hissu}
+\subfile{sections/z2-kougi}
 
 %付録の終わり
 \end{appendix}
@@ -151,8 +123,22 @@ Keyrods1, Keyword2, Keyword3, Keyword4, Keyword5
 
 % 参考文献
 \begin{thebibliography}{9}
- \bibitem {ラベル} 著者名. 書籍名. 出版社,  年号.
- \bibitem {A2} ほげほげお. うんたらかんたら,  2003.
+    \bibitem{zouka} 認知症施策の現状について. 厚生労働省, 2014. \url{http://www.mhlw.go.jp/file/05-Shingikai-12601000-Seisakutoukatsukan-Sanjikanshitsu_Shakaihoshoutantou/0000065682.pdf} (2016/07/14 アクセス)
+    \bibitem{ueki} アルツハイマー型痴呆と栄養 (特集 アルツハイマー型痴呆のリスクファクター). 植木 彰, 2005. \url{http://ci.nii.ac.jp/naid/40006750362/} (2016/07/15 アクセス)
+    \bibitem{haikai} 寺尾北地区社会福祉協議会だより. 寺尾北地区社会福祉協議会広報委員会, 2014. \url{http://www.ayase-shakyo.or.jp/teraokita-14.pdf} (2016/07/16 アクセス)
+    \bibitem{seikatsu} 生活習慣病と認知症. 羽生 春夫, 2013. \url{https://www.jpn-geriat-soc.or.jp/publications/other/pdf/review_geriatrics_50_6_727.pdf} (2017/7/17 アクセス)
+    \bibitem{kaigo} 2025 年に向けた介護人材の確保 ～量と質の好循環の確立に向けて～. 社会保障審議会福祉部会  福祉人材確保専門委員会, 2015. \url{http://www.mhlw.go.jp/file/05-Shingikai-12601000-Seisakutoukatsukan-Sanjikanshitsu_Shakaihoshoutantou/0000075025.pdf} (2017/07/17 アクセス)
+    \bibitem{lifelog} 認知症高齢者向けライフログを用いた傾聴支援システムの有効性の検証. 佐藤生馬，八木教仁，滝沢礼子， 高橋肇，藤野雄一, 2014. \url{http://www.jslst.org/documents/Conference/2014/html/pdf/P-08.pdf} (2017/07/17 アクセス)
+    \bibitem{syourai} 日本における認知症の高齢者人口の将来推計に関する研究. 二宮 利治, 2014. \url{https://mhlw-grants.niph.go.jp/niph/search/NIDD00.do?resrchNum=201405037A} (2017/7/17 アクセス)
+    \item[]
+    \item[] 中島京子. 長いお別れ, ハヤカワ・ミステリ文庫, 1976.
+    \item[] 井庭崇・岡田誠. 旅のことば. 丸善出2015.
+    \item[] 酒井保治郎・小宮桂治. よくわかる脳の障害とケア. 南江堂, 2013.
+    \item[] 高橋龍太郎. 楽しくいきいき、認知症予防！. インターメディカ, 2013.
+    \item[] 飯干 紀代今日から実践 認知症の人とのコミュニケーション 感情と行動を理解するためのアプローチ. 中央法規, 2011.
+    \item[] 鈴木正典. 認知症のための回想法. 日本看護協会出版会, 2013.
+    \item[] 植田孝一郎・鈴木明子・大塚俊男. 認知症の人のための作業療法の手引き. ワールドプランニング, 2010.
+    \item[] 永田久美子・桑野康一・諏訪免典子. 認知症の人の見守り・SOS ネットワーク実例集 安心・安全に暮らせるまちを目指して. 中央法2011.
 \end{thebibliography}
 
 \end{document}

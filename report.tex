@@ -8,7 +8,7 @@
 \usepackage[middle]{funpro}%中間報告書
 
 % 画像ファイル (EPS, EPDF, PNG) を読み込むために
-\usepackage[dvipdfmx]{graphicx,color}
+\usepackage[dvipdfmx]{graphicx,color,hyperref}
 
 % ここから -->
 \usepackage{calc,ifthen}
@@ -19,6 +19,9 @@
 
 % ファイル分割のためのパッケージ
 \usepackage{subfiles}
+
+% url表記
+\usepackage{url}
 
 % 年度の指定
 \thisYear{2017}
@@ -122,8 +125,9 @@
 
 % 参考文献
 \begin{thebibliography}{9}
- \bibitem {ラベル} 著者名. 書籍名. 出版社,  年号.
- \bibitem {A2} ほげほげお. うんたらかんたら,  2003.
+    \bibitem{zouka} 認知症施策の現状について. 厚生労働省, 2014. \url{http://www.mhlw.go.jp/file/05-Shingikai-12601000-Seisakutoukatsukan-Sanjikanshitsu_Shakaihoshoutantou/0000065682.pdf} (2016/07/14 アクセス)
+    \bibitem{ueki} アルツハイマー型痴呆と栄養 (特集 アルツハイマー型痴呆のリスクファクター). 植木 彰, 2005. \url{http://ci.nii.ac.jp/naid/40006750362/} (2016/07/15 アクセス)
+    \bibitem{haikai} 寺尾北地区社会福祉協議会だより. 寺尾北地区社会福祉協議会広報委員会, 2014. \url{http://www.ayase-shakyo.or.jp/teraokita-14.pdf} (2016/07/16 アクセス)
 \end{thebibliography}
 
 \end{document}
